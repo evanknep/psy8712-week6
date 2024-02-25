@@ -14,5 +14,15 @@ mean(stri_length(citations_txt))
 #Data Cleaning
 citations_tbl <- tibble(citations_txt) %>% 
   sample_n(20) %>% View()
-citations_tbl <- tibble(line = 1:length(citations_txt), cite = citations_txt)
+citations_tbl <- tibble(line = 1:length(citations_txt), cite = citations_txt) %>%
+  mutate(cite = str_replace_all(cite, "['\"]", "")) %>%
+  mutate(year = str_extract(cite, "\\d{4}")) %>%
+  mutate(page_start = str_extract(cite, "\\d+(?=-)")) %>%
+  mutate(perf_ref = str_detect(cite, regex("performance", ignore_case = TRUE)))
+  
+  
+  
+  
+
+
 
