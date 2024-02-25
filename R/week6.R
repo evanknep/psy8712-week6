@@ -18,8 +18,11 @@ citations_tbl <- tibble(line = 1:length(citations_txt), cite = citations_txt) %>
   mutate(cite = str_replace_all(cite, "['\"]", "")) %>%
   mutate(year = str_extract(cite, "\\d{4}")) %>%
   mutate(page_start = str_extract(cite, "\\d+(?=-)")) %>%
-  mutate(perf_ref = str_detect(cite, regex("performance", ignore_case = TRUE)))
-  
+  mutate(perf_ref = str_detect(cite, regex("performance", ignore_case = TRUE))) %>%
+  mutate(title = str_extract(cite, "(?<=\\d{4}\\)\\.\\s).*?(?=\\.)")) %>%
+  mutate(first_author = str_extract(cite, "^(.*?)(?=\\.,|\\()"))
+
+sum(!is.na(citations_tbl$first_author))
   
   
   
